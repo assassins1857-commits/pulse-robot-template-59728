@@ -1113,9 +1113,7 @@ const Community = () => {
             </div>
           </main>
         </div>
-      </div>
-    </div>
-  );
-};
+      );
+    };
 
-export default Community;
+    export default Community;
