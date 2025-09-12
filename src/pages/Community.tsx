@@ -113,6 +113,16 @@ const Community = () => {
   const fetchPosts = async () => {
     try {
       setLoading(true);
+
+      // Helper to ensure we always have public URLs for storage objects
+      const toPublicUrls = (bucket: string, urls: string[]) => {
+        return (urls || []).map((u) => {
+          if (!u) return u;
+          if (u.startsWith("http")) return u;
+          const { data } = supabase.storage.from(bucket).getPublicUrl(u);
+          return data.publicUrl || u;
+        });
+      };
       
       // Fetch both community posts and quest submissions
       const [communityRes, questRes] = await Promise.all([
@@ -177,7 +187,7 @@ const Community = () => {
             content: p.content,
             post_type: p.post_type,
             tags: p.tags || [],
-            image_urls: p.image_urls || (p.image_url ? [p.image_url] : []),
+            image_urls: toPublicUrls('community-images', p.image_urls || (p.image_url ? [p.image_url] : [])) ,
             created_at: p.created_at,
             likes_count: likes.length,
             comments_count: comments.length,
@@ -211,7 +221,7 @@ const Community = () => {
             type: 'quest',
             content: s.description || '',
             description: s.description,
-            image_urls: s.image_urls || (s.photo_url ? [s.photo_url] : []),
+            image_urls: toPublicUrls('quest-submissions', s.image_urls || (s.photo_url ? [s.photo_url] : [])),
             created_at: s.submitted_at,
             geo_location: s.geo_location,
             likes_count: likes.length,
@@ -675,7 +685,7 @@ const Community = () => {
                     </div>
                   ) : (
                     filteredPosts.map((post) => (
-                      <Card key={post.id} className="overflow-hidden">
+                      <Card key={post.id} className="overflow-hidden animate-fade-in hover-scale transition-shadow">
                         <CardContent className="p-0">
                           {isMobile ? (
                             // Mobile Layout: Traditional Social Media Style
@@ -730,8 +740,9 @@ const Community = () => {
                                   {post.image_urls.length === 1 ? (
                                     <img
                                       src={post.image_urls[0]}
-                                      alt="Post image"
-                                      className="w-full h-full object-cover"
+                                      alt="Crew post image"
+                                      loading="lazy"
+                                      className="w-full h-full object-cover hover-scale"
                                       onError={(e) => {
                                         const target = e.target as HTMLImageElement;
                                         target.style.display = 'none';
@@ -743,8 +754,9 @@ const Community = () => {
                                         <div key={index} className={`relative ${post.image_urls!.length === 3 && index === 0 ? 'col-span-2' : ''}`}>
                                           <img
                                             src={url}
-                                            alt={`Post image ${index + 1}`}
-                                            className="w-full h-full object-cover"
+                                            alt={`Crew post image ${index + 1}`}
+                                            loading="lazy"
+                                            className="w-full h-full object-cover hover-scale"
                                             onError={(e) => {
                                               const target = e.target as HTMLImageElement;
                                               target.style.display = 'none';
