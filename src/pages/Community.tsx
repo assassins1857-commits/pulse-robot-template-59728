@@ -3,8 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { AppSidebar } from "@/components/navigation/AppSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { TopNavbar } from "@/components/navigation/TopNavbar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -14,10 +13,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Heart, MessageCircle, Send, Share2, Filter, Plus, Tag, Image, MapPin, Clock, User } from "lucide-react";
 import { MultiImageUpload } from "@/components/ui/multi-image-upload";
-import { StreakDisplay } from "@/components/streak/StreakDisplay";
-import ThemeToggleButton from "@/components/ui/theme-toggle-button";
-import { NotificationCenter } from "@/components/notifications/NotificationCenter";
-import { ProfileDropdown } from "@/components/navigation/ProfileDropdown";
 
 // Unified interface for all posts (community posts + quest submissions)
 interface UnifiedPost {
@@ -497,37 +492,19 @@ const Community = () => {
   };
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full">
-        <AppSidebar />
-        
-        <div className="flex-1">
-          {/* Header */}
-          <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-            <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <SidebarTrigger />
-                <h1 className="text-2xl font-bold">Crew</h1>
-              </div>
-              <div className="flex items-center gap-4">
-                <ThemeToggleButton />
-                <NotificationCenter />
-                <StreakDisplay />
-                <ProfileDropdown />
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
+      <TopNavbar />
+      
+      <main className="flex-1 overflow-auto">
+        <div className="max-w-6xl mx-auto">
+          {/* Unified Community Feed */}
+          <div className="px-4 relative">
+            <div className="flex items-center justify-between mb-6 pt-6">
+              <div>
+                <h2 className="text-2xl font-bold">Crew</h2>
+                <p className="text-muted-foreground">Share achievements, connect with fellow adventurers</p>
               </div>
             </div>
-          </header>
-
-          <main className="flex-1 overflow-auto">
-            <div className="max-w-6xl mx-auto">
-              {/* Unified Community Feed */}
-              <div className="px-4 relative">
-                <div className="flex items-center justify-between mb-6 pt-6">
-                  <div>
-                    <h2 className="text-2xl font-bold">Crew</h2>
-                    <p className="text-muted-foreground">Share achievements, connect with fellow adventurers</p>
-                  </div>
-                </div>
 
                 {/* Floating Action Buttons */}
                 <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
@@ -1137,7 +1114,7 @@ const Community = () => {
           </main>
         </div>
       </div>
-    </SidebarProvider>
+    </div>
   );
 };
 
