@@ -17,6 +17,7 @@ import QuestMapPage from "./pages/QuestMap";
 import NotFound from "./pages/NotFound";
 import Community from "./pages/Community";
 import MobileTest from "./pages/MobileTest";
+import Admin from "./pages/Admin";
 
 
 const queryClient = new QueryClient();
@@ -70,6 +71,7 @@ const App = () => (
           <Route path="/mobile-test" element={<MobileTest />} />
           {/* Redirect old dashboard route to home */}
           <Route path="/dashboard" element={<Navigate to="/home" replace />} />
+          <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
