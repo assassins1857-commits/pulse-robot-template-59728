@@ -2,13 +2,7 @@
 
 To enable image uploads in the Community tab, you need to run these SQL commands in your Supabase SQL Editor:
 
-## 1. Add image_url column to community_posts table
-
-```sql
-ALTER TABLE community_posts ADD COLUMN image_url TEXT;
-```
-
-## 2. Create storage bucket and policies
+## 1. Create storage bucket and policies
 
 ```sql
 -- Create community-images storage bucket
@@ -32,7 +26,7 @@ FOR DELETE TO authenticated
 USING (bucket_id = 'community-images' AND auth.uid()::text = (storage.foldername(name))[1]);
 ```
 
-## 3. (Optional) Enhanced Streak Tracking
+## 2. (Optional) Enhanced Streak Tracking
 
 If you want enhanced streak tracking with a dedicated table, run this SQL:
 
