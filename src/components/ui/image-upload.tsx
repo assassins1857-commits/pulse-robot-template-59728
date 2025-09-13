@@ -60,7 +60,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       const filePath = `community-posts/${fileName}`;
 
       const { data, error } = await supabase.storage
-        .from('community-images')
+        .from('quest-submissions')
         .upload(filePath, file);
 
       if (error) {
@@ -79,7 +79,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
-        .from('community-images')
+        .from('quest-submissions')
         .getPublicUrl(filePath);
 
       onImageUpload(publicUrl);

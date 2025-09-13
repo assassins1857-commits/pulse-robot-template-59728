@@ -105,6 +105,9 @@ const Community = () => {
     fetchPosts();
   }, []);
 
+
+
+
   const fetchPosts = async () => {
     try {
       setLoading(true);
@@ -124,7 +127,7 @@ const Community = () => {
         // Community posts
         (supabase as any)
           .from("community_posts")
-          .select("id, user_id, title, content, post_type, tags, image_url, image_urls, created_at")
+          .select("id, user_id, title, content, post_type, tags, image_urls, created_at")
           .order("created_at", { ascending: false }),
         
         // Quest submissions (verified)
@@ -182,7 +185,7 @@ const Community = () => {
             content: p.content,
             post_type: p.post_type,
             tags: p.tags || [],
-            image_urls: toPublicUrls('community-images', p.image_urls || (p.image_url ? [p.image_url] : [])) ,
+            image_urls: toPublicUrls('quest-submissions', p.image_urls || []) ,
             created_at: p.created_at,
             likes_count: likes.length,
             comments_count: comments.length,
@@ -216,7 +219,11 @@ const Community = () => {
             type: 'quest',
             content: s.description || '',
             description: s.description,
-            image_urls: toPublicUrls('quest-submissions', s.image_urls || (s.photo_url ? [s.photo_url] : [])),
+            image_urls: s.image_urls && s.image_urls.length > 0 
+              ? toPublicUrls('quest-submissions', s.image_urls)
+              : s.photo_url 
+                ? [s.photo_url] // photo_url is already a full URL, no need to convert
+                : [],
             created_at: s.submitted_at,
             geo_location: s.geo_location,
             likes_count: likes.length,
@@ -277,7 +284,6 @@ const Community = () => {
           content: content.trim(),
           post_type: postType,
           tags,
-          image_url: imageUrls.length > 0 ? imageUrls[0] : null,
           image_urls: imageUrls,
         })
         .select()
@@ -1122,9 +1128,6 @@ const Community = () => {
                     ))
                   )}
                 </div>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
     </div>
