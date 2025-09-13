@@ -495,104 +495,117 @@ const Community = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
       <TopNavbar />
       
-      <main className="flex-1 overflow-auto">
-        <div className="max-w-6xl mx-auto">
-          {/* Unified Community Feed */}
-          <div className="px-4 relative">
-            <div className="flex items-center justify-between mb-6 pt-6">
-              <div>
-                <h2 className="text-2xl font-bold">Crew</h2>
-                <p className="text-muted-foreground">Share achievements, connect with fellow adventurers</p>
-              </div>
-            </div>
+      <main className="container mx-auto px-6 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent mb-4">
+            Adventure Community
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Connect with fellow adventurers, share your quest achievements, and discover new challenges together.
+          </p>
+        </div>
 
-                {/* Floating Action Buttons */}
-                <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-                  <Button 
-                    size="icon" 
-                    className="h-12 w-12 rounded-full shadow-lg"
-                    onClick={() => setShowFilters(!showFilters)}
-                  >
-                    <Filter className="h-5 w-5" />
-                  </Button>
-                  
-                  <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-                    <DialogTrigger asChild>
-                      <Button 
-                        size="icon" 
-                        className="h-14 w-14 rounded-full shadow-lg bg-primary hover:bg-primary/90"
-                      >
-                        <Plus className="h-6 w-6" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-lg">
-                      <DialogHeader>
-                        <DialogTitle>Create a Post</DialogTitle>
-                      </DialogHeader>
-                      <div className="grid gap-4">
-                        <Input 
-                          placeholder="What's on your mind?" 
-                          value={title} 
-                          onChange={(e) => setTitle(e.target.value)} 
-                        />
-                        <div className="grid grid-cols-2 gap-3">
-                          <select
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                            value={postType}
-                            onChange={(e) => setPostType(e.target.value as UnifiedPost["post_type"])}
-                          >
-                            <option value="general">General</option>
-                            <option value="help">Help</option>
-                            <option value="achievement">Achievement</option>
-                            <option value="discussion">Discussion</option>
-                          </select>
+        <div className="max-w-6xl mx-auto">
+          {/* Community Controls */}
+          <div className="relative mb-8">
+            <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/10">
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Community Hub</h2>
+                    <p className="text-muted-foreground">Share achievements, connect with fellow adventurers</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowFilters(!showFilters)}
+                      className="flex items-center gap-2"
+                    >
+                      <Filter className="h-4 w-4" />
+                      Filters
+                    </Button>
+                    <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+                      <DialogTrigger asChild>
+                        <Button className="flex items-center gap-2">
+                          <Plus className="h-4 w-4" />
+                          Create Post
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-lg">
+                        <DialogHeader>
+                          <DialogTitle>Share Your Adventure</DialogTitle>
+                        </DialogHeader>
+                        <div className="grid gap-4">
                           <Input 
-                            placeholder="Tags (comma separated)" 
-                            value={tagsInput} 
-                            onChange={(e) => setTagsInput(e.target.value)} 
+                            placeholder="What's on your mind?" 
+                            value={title} 
+                            onChange={(e) => setTitle(e.target.value)} 
                           />
-                        </div>
-                        <Textarea 
-                          placeholder="Write your post..." 
-                          value={content} 
-                          onChange={(e) => setContent(e.target.value)} 
-                          className="min-h-[100px]" 
-                        />
-                        
-                        {/* Multi-Image Upload */}
-                        <div>
-                          <label className="text-sm font-medium mb-2 flex items-center gap-2">
-                            <Image className="h-4 w-4" />
-                            Add Images (Optional, up to 3)
-                          </label>
-                          <MultiImageUpload
-                            onImagesUpdate={setImageUrls}
-                            existingImages={imageUrls}
-                            maxImages={3}
+                          <div className="grid grid-cols-2 gap-3">
+                            <select
+                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                              value={postType}
+                              onChange={(e) => setPostType(e.target.value as UnifiedPost["post_type"])}
+                            >
+                              <option value="general">General</option>
+                              <option value="help">Help</option>
+                              <option value="achievement">Achievement</option>
+                              <option value="discussion">Discussion</option>
+                            </select>
+                            <Input 
+                              placeholder="Tags (comma separated)" 
+                              value={tagsInput} 
+                              onChange={(e) => setTagsInput(e.target.value)} 
+                            />
+                          </div>
+                          <Textarea 
+                            placeholder="Write your post..." 
+                            value={content} 
+                            onChange={(e) => setContent(e.target.value)} 
+                            className="min-h-[100px]" 
                           />
+                          
+                          {/* Multi-Image Upload */}
+                          <div>
+                            <label className="text-sm font-medium mb-2 flex items-center gap-2">
+                              <Image className="h-4 w-4" />
+                              Add Images (Optional, up to 3)
+                            </label>
+                            <MultiImageUpload
+                              onImagesUpdate={setImageUrls}
+                              existingImages={imageUrls}
+                              maxImages={3}
+                            />
+                          </div>
+                          
+                          <div className="flex justify-end gap-2">
+                            <Button 
+                              variant="outline" 
+                              onClick={() => setShowCreateDialog(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button 
+                              onClick={() => {
+                                handleCreatePost();
+                                setShowCreateDialog(false);
+                              }} 
+                              disabled={!title.trim() || !content.trim() || creating}
+                            >
+                              {creating ? "Posting..." : "Share"}
+                            </Button>
+                          </div>
                         </div>
-                        
-                        <div className="flex justify-end gap-2">
-                          <Button 
-                            variant="outline" 
-                            onClick={() => setShowCreateDialog(false)}
-                          >
-                            Cancel
-                          </Button>
-                          <Button 
-                            onClick={() => {
-                              handleCreatePost();
-                              setShowCreateDialog(false);
-                            }} 
-                            disabled={!title.trim() || !content.trim() || creating}
-                          >
-                            {creating ? "Posting..." : "Post"}
-                          </Button>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </div>
+              </CardContent>
+            </Card>
+          </div>
+
 
                 {/* Filters Panel */}
                 {showFilters && (
@@ -1111,9 +1124,11 @@ const Community = () => {
                 </div>
               </div>
             </div>
-          </main>
+          </div>
         </div>
-      );
-    };
+      </main>
+    </div>
+  );
+};
 
-    export default Community;
+export default Community;

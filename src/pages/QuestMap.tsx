@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { QuestMap } from "@/components/quest/QuestMap";
 import { TopNavbar } from "@/components/navigation/TopNavbar";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { MapPin } from "lucide-react";
 
 interface Quest {
   id: string;
@@ -64,15 +66,33 @@ const QuestMapPage = () => {
           </p>
         </div>
 
-        {/* Quest Map */}
+        {/* Interactive Quest Map */}
         {loading ? (
-          <div className="flex items-center justify-center h-96 bg-gradient-to-br from-background to-accent/5 rounded-2xl">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          </div>
+          <Card className="h-96 bg-gradient-to-br from-background to-accent/5">
+            <CardContent className="flex items-center justify-center h-full">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-4"></div>
+                <p className="text-muted-foreground text-lg">Loading quest locations...</p>
+              </div>
+            </CardContent>
+          </Card>
         ) : (
-          <div className="bg-gradient-to-br from-background to-accent/5 rounded-2xl p-1 shadow-xl">
-            <QuestMap quests={quests} />
-          </div>
+          <Card className="overflow-hidden shadow-2xl border-primary/10">
+            <CardHeader className="bg-gradient-to-r from-primary/5 to-secondary/5 border-b">
+              <CardTitle className="flex items-center gap-2">
+                <MapPin className="h-5 w-5 text-primary" />
+                Interactive Quest Map
+              </CardTitle>
+              <CardDescription>
+                Explore {quests.length} active quests in your area. Click on markers to view details.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              <div className="relative">
+                <QuestMap quests={quests} />
+              </div>
+            </CardContent>
+          </Card>
         )}
       </main>
     </div>

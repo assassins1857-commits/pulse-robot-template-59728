@@ -8,6 +8,7 @@ import { ArrowLeft, Trophy, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { addNewBadges } from '@/utils/addNewBadges';
+import { TopNavbar } from '@/components/navigation/TopNavbar';
 
 interface BadgeData {
   id: string;
@@ -99,59 +100,58 @@ const BadgeGallery = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => navigate('/home')}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Treasure
-            </h1>
-            <p className="text-muted-foreground">
-              Collect badges by completing quests and achievements
-            </p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5">
+      <TopNavbar />
+      
+      <main className="container mx-auto px-6 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-primary/80 to-secondary bg-clip-text text-transparent mb-4">
+            Badge Gallery
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Showcase your achievements and track your collection progress across all adventures.
+          </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card>
+        {/* Achievement Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
-              <div className="flex items-center space-x-2">
-                <Trophy className="h-5 w-5 text-primary" />
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-primary/10 rounded-full">
+                  <Trophy className="h-6 w-6 text-primary" />
+                </div>
                 <div>
-                  <p className="text-2xl font-bold">{userBadges.length}</p>
+                  <p className="text-3xl font-bold">{userBadges.length}</p>
                   <p className="text-sm text-muted-foreground">Earned Badges</p>
                 </div>
               </div>
             </CardContent>
           </Card>
-          <Card>
+          
+          <Card className="border-secondary/20 bg-gradient-to-br from-secondary/5 to-secondary/10 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-primary" />
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-secondary/10 rounded-full">
+                  <Calendar className="h-6 w-6 text-secondary" />
+                </div>
                 <div>
-                  <p className="text-2xl font-bold">{allBadges.length}</p>
+                  <p className="text-3xl font-bold">{allBadges.length}</p>
                   <p className="text-sm text-muted-foreground">Total Available</p>
                 </div>
               </div>
             </CardContent>
           </Card>
-          <Card>
+          
+          <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-accent/10 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
-              <div className="flex items-center space-x-2">
-                <Trophy className="h-5 w-5 text-accent" />
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-accent/10 rounded-full">
+                  <Trophy className="h-6 w-6 text-accent" />
+                </div>
                 <div>
-                  <p className="text-2xl font-bold">
+                  <p className="text-3xl font-bold">
                     {Math.round((userBadges.length / Math.max(allBadges.length, 1)) * 100)}%
                   </p>
                   <p className="text-sm text-muted-foreground">Collection Rate</p>
@@ -163,16 +163,18 @@ const BadgeGallery = () => {
 
         {/* Earned Badges */}
         {userBadges.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-              <Trophy className="h-6 w-6 text-primary" />
-              Earned Badges
+          <div className="mb-12">
+            <h2 className="text-2xl font-semibold mb-8 flex items-center gap-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <div className="p-2 bg-primary/10 rounded-full">
+                <Trophy className="h-6 w-6 text-primary" />
+              </div>
+              Your Achievements
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {userBadges.map((userBadge) => (
-                <Card key={userBadge.id} className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+                <Card key={userBadge.id} className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                   <CardHeader className="text-center">
-                    <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-2">
+                    <div className="mx-auto w-20 h-20 bg-gradient-to-br from-primary/10 to-primary/20 rounded-full flex items-center justify-center mb-4 shadow-lg">
                       {userBadge.badge.icon_url ? (
                         userBadge.badge.icon_url.startsWith('http') ? (
                           <img 
@@ -187,16 +189,16 @@ const BadgeGallery = () => {
                         <Trophy className="h-8 w-8 text-primary" />
                       )}
                     </div>
-                    <CardTitle className="text-lg">{userBadge.badge.name}</CardTitle>
-                    <CardDescription>{userBadge.badge.description}</CardDescription>
+                    <CardTitle className="text-xl font-bold">{userBadge.badge.name}</CardTitle>
+                    <CardDescription className="text-base">{userBadge.badge.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="text-center">
-                      <Badge variant="secondary" className="mb-2">
-                        Earned
+                      <Badge className="mb-3 bg-gradient-to-r from-primary to-primary/80 text-white border-0">
+                        ✨ Achieved
                       </Badge>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(userBadge.earned_at).toLocaleDateString()}
+                      <p className="text-sm text-muted-foreground font-medium">
+                        Earned on {new Date(userBadge.earned_at).toLocaleDateString()}
                       </p>
                     </div>
                   </CardContent>
@@ -208,8 +210,13 @@ const BadgeGallery = () => {
 
         {/* All Badges */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4">All Badges</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <h2 className="text-2xl font-semibold mb-8 flex items-center gap-3">
+            <div className="p-2 bg-muted/30 rounded-full">
+              <Trophy className="h-6 w-6 text-muted-foreground" />
+            </div>
+            Complete Collection
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allBadges.map((badge) => {
               const earnedBadge = getBadgeStatus(badge.id);
               const isEarned = !!earnedBadge;
@@ -217,15 +224,15 @@ const BadgeGallery = () => {
               return (
                 <Card 
                   key={badge.id} 
-                  className={`transition-all duration-200 ${
+                  className={`transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg ${
                     isEarned 
-                      ? 'border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10' 
-                      : 'opacity-70 hover:opacity-90 border-muted'
+                      ? 'border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10 shadow-md' 
+                      : 'opacity-60 hover:opacity-80 border-muted/50 hover:border-border'
                   }`}
                 >
                   <CardHeader className="text-center">
-                    <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center mb-2 ${
-                      isEarned ? 'bg-primary/10' : 'bg-muted'
+                    <div className={`mx-auto w-20 h-20 rounded-full flex items-center justify-center mb-4 shadow-md ${
+                      isEarned ? 'bg-gradient-to-br from-primary/10 to-primary/20' : 'bg-muted/50'
                     }`}>
                        {badge.icon_url ? (
                          badge.icon_url.startsWith('http') ? (
@@ -243,20 +250,20 @@ const BadgeGallery = () => {
                          <Trophy className={`h-8 w-8 ${isEarned ? 'text-primary' : 'text-muted-foreground'}`} />
                        )}
                     </div>
-                    <CardTitle className="text-lg">{badge.name}</CardTitle>
-                    <CardDescription>{badge.description}</CardDescription>
+                    <CardTitle className="text-xl font-bold">{badge.name}</CardTitle>
+                    <CardDescription className="text-base">{badge.description}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="text-center">
                       <Badge 
-                        variant={isEarned ? "secondary" : "outline"}
-                        className="mb-2"
+                        variant={isEarned ? "default" : "outline"}
+                        className={`mb-3 ${isEarned ? 'bg-gradient-to-r from-primary to-primary/80 text-white' : ''}`}
                       >
-                        {isEarned ? 'Earned' : 'Not Earned'}
+                        {isEarned ? '✨ Achieved' : '🔒 Locked'}
                       </Badge>
                       {isEarned && earnedBadge && (
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(earnedBadge.earned_at).toLocaleDateString()}
+                        <p className="text-sm text-muted-foreground font-medium">
+                          Earned on {new Date(earnedBadge.earned_at).toLocaleDateString()}
                         </p>
                       )}
                     </div>
@@ -266,7 +273,7 @@ const BadgeGallery = () => {
             })}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
